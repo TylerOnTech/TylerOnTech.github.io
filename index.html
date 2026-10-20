@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tyler Kunkel — Software Builder</title>
+  <meta name="description" content="Tyler Kunkel builds full-stack SaaS products. Founder of TyKu Technologies (BindHQ) and co-founder of Black Box Fragrances.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0c0c0d" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://tylerontech.github.io/">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tylerontech.github.io/">
+  <meta property="og:title" content="Tyler Kunkel — Software Builder">
+  <meta property="og:description" content="Founder of TyKu Technologies (BindHQ) and co-founder of Black Box Fragrances. I build full-stack SaaS from the database up.">
+  <meta property="og:image" content="https://tylerontech.github.io/assets/img/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip" href="#work">Skip to projects</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="wordmark" href="#top" aria-label="Tyler Kunkel, back to top">
+        <span class="monogram" aria-hidden="true">TK</span>
+        <span>Tyler Kunkel</span>
+      </a>
+      <nav aria-label="Primary">
+        <ul class="nav">
+          <li><a href="#work">Work</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">Software builder · Fort Wayne, Indiana</p>
+        <h1>I build real products, from the database&nbsp;up.</h1>
+        <p class="lede">
+          Founder of <strong>TyKu Technologies</strong> and co-founder of
+          <strong>Black Box Fragrances</strong>. I design, build, and ship full-stack SaaS:
+          multi-tenant architecture, thoroughly tested business logic, and interfaces people
+          actually enjoy using.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#work">See the work</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
+        <p class="now">
+          <span class="pulse" aria-hidden="true"></span>
+          <span><span class="now-label">Now</span> Shipping BindHQ V2: policies, vehicles, drivers, and documents.</span>
+        </p>
+      </div>
+      <figure class="portrait">
+        <img src="assets/img/tyler.jpg" width="400" height="400" alt="Portrait of Tyler Kunkel">
+      </figure>
+    </section>
+
+    <!-- Featured work -->
+    <section id="work" class="work" aria-labelledby="work-title">
+      <div class="wrap rule-top">
+        <div class="section-head">
+          <p class="eyebrow">Featured work</p>
+          <h2 id="work-title">Two products, built and running in production.</h2>
+        </div>
+      </div>
+
+      <!-- BindHQ -->
+      <article class="project wrap" aria-labelledby="bindhq-title">
+        <div class="project-copy">
+          <p class="project-kicker"><span class="num">01</span> TyKu Technologies</p>
+          <h3 id="bindhq-title" class="project-title">BindHQ</h3>
+          <p class="project-lede">An agency management system and CRM for independent insurance agencies.</p>
+          <div class="pills">
+            <span class="pill pill-live">V1 live in production</span>
+            <span class="pill">V2 in progress</span>
+          </div>
+          <p>
+            Independent agencies run on legacy software that's expensive, slow, and dated. BindHQ
+            covers the 80–90% of features agencies use every day, with the speed and polish of tools
+            like Linear or Stripe. It's a true multi-tenant SaaS, and its first real tenant is TyKu's
+            own insurance agency.
+          </p>
+
+          <ul class="highlights">
+            <li>
+              <h4>Tenant isolation in the database</h4>
+              <p>Every agency is walled off by forced Postgres row-level security and composite foreign keys. Even a missing <code>WHERE</code> clause can't leak another agency's client data.</p>
+            </li>
+            <li>
+              <h4>Policy history as a ledger</h4>
+              <p>Each renewal inserts a new policy term instead of overwriting the last one, so past premiums are never lost.</p>
+            </li>
+            <li>
+              <h4>Audited before release</h4>
+              <p>V1 passed a 16-point acceptance audit run against production, with zero cross-tenant data exposure.</p>
+            </li>
+            <li>
+              <h4>Built for the real workflow</h4>
+              <p>Households, contacts, producer/CSR assignment, carriers, lines of business, policies, notes, activity timeline, team invites, and role-based access.</p>
+            </li>
+          </ul>
+
+          <dl class="stats">
+            <div><dt>Automated tests</dt><dd>211</dd></div>
+            <div><dt>SQL migrations</dt><dd>26</dd></div>
+            <div><dt>Decision records</dt><dd>8</dd></div>
+            <div><dt>Lines of TypeScript</dt><dd>16k</dd></div>
+          </dl>
+
+          <ul class="stack" aria-label="Tech stack">
+            <li>Next.js 16</li><li>React 19</li><li>TypeScript</li><li>PostgreSQL · Neon</li>
+            <li>Drizzle ORM</li><li>Better Auth</li><li>Tailwind · shadcn/ui</li><li>Turborepo</li>
+            <li>Sentry</li><li>Vercel</li>
+          </ul>
+
+          <div class="project-links">
+            <a class="link-arrow" href="https://bindhq.vercel.app" target="_blank" rel="noopener">Visit the live app</a>
+            <span class="muted">Private repo · code walkthrough on request</span>
+          </div>
+        </div>
+
+        <figure class="project-visual">
+          <div class="bhq-window" aria-hidden="true">
+            <div class="bhq-chrome">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="bhq-url">bindhq.vercel.app/clients</span>
+            </div>
+            <div class="bhq-body">
+              <aside class="bhq-side">
+                <p class="bhq-brand">BindHQ</p>
+                <p class="bhq-agency">Maple Street Insurance</p>
+                <ul>
+                  <li>Dashboard</li>
+                  <li class="on">Clients</li>
+                  <li>Settings</li>
+                </ul>
+              </aside>
+              <div class="bhq-main">
+                <p class="bhq-crumb">Clients /</p>
+                <div class="bhq-titlerow">
+                  <p class="bhq-h">Rivera Household</p>
+                  <span class="bhq-badge">Personal</span>
+                </div>
+                <div class="bhq-meta">
+                  <span><b>Producer</b> Dana Whitfield</span>
+                  <span><b>CSR</b> Marcus Lee</span>
+                </div>
+                <div class="bhq-card">
+                  <div class="bhq-cardhead"><span>Policies</span><span class="bhq-btn">+ New policy</span></div>
+                  <div class="bhq-row"><span class="lob">Personal Auto</span><span>Progressive</span><span class="mono">PA-20418873</span><span class="st st-on">Active</span></div>
+                  <div class="bhq-row"><span class="lob">Homeowners</span><span>Safeco</span><span class="mono">—</span><span class="st">Quote</span></div>
+                  <div class="bhq-row"><span class="lob">Umbrella</span><span>Travelers</span><span class="mono">UMB-55102</span><span class="st st-on">Active</span></div>
+                </div>
+                <div class="bhq-card">
+                  <div class="bhq-cardhead"><span>Activity</span></div>
+                  <ul class="bhq-tl">
+                    <li><span>Personal Auto policy with Progressive was created</span><time>2h</time></li>
+                    <li><span>Producer changed to Dana Whitfield</span><time>Yesterday</time></li>
+                    <li><span>Note added by Marcus Lee</span><time>Sep 28</time></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <pre class="code" aria-label="Example row-level security policy"><code><span class="c">-- every tenant table: RLS enabled and forced</span>
+<span class="k">ALTER TABLE</span> policies <span class="k">FORCE ROW LEVEL SECURITY</span>;
+<span class="k">CREATE POLICY</span> t_select <span class="k">ON</span> policies
+  <span class="k">FOR SELECT TO</span> app_user
+  <span class="k">USING</span> (agency_id =
+    current_setting(<span class="s">'app.current_agency_id'</span>)::uuid);</code></pre>
+          <figcaption>Interface mockup based on the production app, plus the isolation pattern every tenant table uses.</figcaption>
+        </figure>
+      </article>
+
+      <!-- Black Box -->
+      <article class="project project-flip wrap rule-top" aria-labelledby="bb-title">
+        <div class="project-copy">
+          <p class="project-kicker"><span class="num">02</span> Black Box Media</p>
+          <h3 id="bb-title" class="project-title">Black Box Fragrances</h3>
+          <p class="project-lede">A personal fragrance decision engine, built for an audience of 70,000+.</p>
+          <div class="pills">
+            <span class="pill pill-live">Live in production</span>
+            <span class="pill">Co-founder · product &amp; engineering</span>
+          </div>
+          <p>
+            Black Box is a fragrance channel on TikTok and YouTube with 100K+ weekly views. The
+            platform turns viewers into users: a three-minute taste quiz builds a Scent Profile, then
+            every fragrance gets an explainable Match Score and a Bottle Check verdict (buy, sample
+            first, consider, or skip) that also knows what's already in your collection.
+          </p>
+
+          <ul class="highlights">
+            <li>
+              <h4>Explainable, not "AI"</h4>
+              <p>Scoring is deterministic and fully tested. Every score shows its reasons and a separate confidence level, and it's checked against a hand-curated set of taste personas.</p>
+            </li>
+            <li>
+              <h4>Knows your collection</h4>
+              <p>Bottle Check warns when a new bottle duplicates one you already own. Collection Intelligence tells you what your shelf says about your taste.</p>
+            </li>
+            <li>
+              <h4>Built to grow</h4>
+              <p>Daily Head-to-Head voting, public profiles, campaign links from videos, and per-product affiliate links through FragranceNet and DecantX.</p>
+            </li>
+            <li>
+              <h4>Private by default</h4>
+              <p>Passwordless email sign-in, server-side authorization that fails closed, and automated tests proving one user can never read another's data.</p>
+            </li>
+          </ul>
+
+          <dl class="stats">
+            <div><dt>Automated tests</dt><dd>~880</dd></div>
+            <div><dt>Decision records</dt><dd>23</dd></div>
+            <div><dt>Workspace packages</dt><dd>6</dd></div>
+            <div><dt>Lines of TypeScript</dt><dd>45k</dd></div>
+          </dl>
+
+          <ul class="stack" aria-label="Tech stack">
+            <li>Next.js 16</li><li>React 19</li><li>TypeScript</li><li>PostgreSQL · Neon</li>
+            <li>Drizzle ORM</li><li>Better Auth</li><li>Tailwind v4</li><li>Playwright</li>
+            <li>PostHog</li><li>Sentry</li><li>Resend</li><li>Vercel</li>
+          </ul>
+
+          <div class="project-links">
+            <a class="link-arrow" href="https://www.blackboxfragrances.com" target="_blank" rel="noopener">Visit blackboxfragrances.com</a>
+            <span class="muted">Private repo · code walkthrough on request</span>
+          </div>
+        </div>
+
+        <figure class="project-visual project-visual-phone">
+          <div class="phone" aria-hidden="true">
+            <div class="bb-top">
+              <img src="assets/img/blackbox-logo.png" width="28" height="28" alt="">
+              <span>Black Box</span>
+            </div>
+            <div class="bb-scroll">
+              <p class="bb-brand">Dior</p>
+              <p class="bb-name">Sauvage Elixir</p>
+              <span class="bb-gender">Men's</span>
+
+              <div class="bb-card">
+                <div class="bb-cardhead">
+                  <span class="bb-label">Match Score</span>
+                  <span class="bb-conf"><i class="on"></i><i class="on"></i><i></i> Medium confidence</span>
+                </div>
+                <p class="bb-score"><span>82</span> Strong Match</p>
+                <ul class="bb-factors">
+                  <li><b class="pos">+</b>Matches warm spicy, which you said you like.</li>
+                  <li><b class="pos">+</b>Close match on longevity.</li>
+                  <li><b class="neg">−</b>Noticeably different sweetness than what you said you prefer.</li>
+                </ul>
+              </div>
+
+              <div class="bb-card">
+                <div class="bb-cardhead">
+                  <span class="bb-label">Bottle Check</span>
+                  <span class="bb-verdict">Sample first</span>
+                </div>
+                <p class="bb-text">Shares a lot of character with <b>Bleu de Chanel</b>, which you already own.</p>
+                <div class="bb-feedback"><span>Useful</span><span>Not useful</span></div>
+              </div>
+            </div>
+            <div class="bb-nav"><span>Home</span><span>Users</span><span>Profile</span></div>
+          </div>
+          <figcaption>Mockup of a fragrance page, using the app's real design tokens and real explanation copy.</figcaption>
+        </figure>
+      </article>
+    </section>
+
+    <!-- More projects -->
+    <section class="more wrap rule-top" aria-labelledby="more-title">
+      <div class="section-head">
+        <p class="eyebrow">More projects</p>
+        <h2 id="more-title">Smaller builds and client work.</h2>
+      </div>
+      <div class="cards">
+        <a class="card" href="https://github.com/TylerOnTech/Password_Analyzer" target="_blank" rel="noopener">
+          <p class="card-tag">Python · Security</p>
+          <h3>Password Analyzer</h3>
+          <p>A command-line tool that rates password strength using entropy estimates and pattern checks for common passwords, keyboard walks, sequences, repeats, and years. Tested with pytest.</p>
+          <span class="link-arrow">View on GitHub</span>
+        </a>
+        <a class="card" href="https://github.com/TylerOnTech/CLI_Task_Manager" target="_blank" rel="noopener">
+          <p class="card-tag">Python · CLI</p>
+          <h3>CLI Task Manager</h3>
+          <p>An interactive, menu-driven task manager with JSON persistence, built entirely on Python's standard library.</p>
+          <span class="link-arrow">View on GitHub</span>
+        </a>
+        <a class="card" href="https://outbackcoatings.com/" target="_blank" rel="noopener">
+          <p class="card-tag">Client work · Web design</p>
+          <h3>Outback Coatings</h3>
+          <p>Marketing website for a Fort Wayne concrete and garage-floor coatings company, designed to match the brand and turn visitors into quote requests.</p>
+          <span class="link-arrow">Visit the site</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="experience wrap rule-top" aria-labelledby="exp-title">
+      <div class="section-head">
+        <p class="eyebrow">Experience</p>
+        <h2 id="exp-title">From internships to running my own products.</h2>
+      </div>
+      <ol class="timeline">
+        <li>
+          <p class="when">Current</p>
+          <div>
+            <h3>Founder <span>· TyKu Technologies</span></h3>
+            <p>Building BindHQ end to end: product, architecture, database design, security, and deployment.</p>
+          </div>
+        </li>
+        <li>
+          <p class="when">2023 — Present</p>
+          <div>
+            <h3>Co-founder &amp; content creator <span>· Black Box Fragrances</span></h3>
+            <p>Helped grow the brand to ~70K TikTok followers, ~5K YouTube subscribers, and 100K+ weekly views, then built the platform that serves that audience.</p>
+          </div>
+        </li>
+        <li>
+          <p class="when">2023 — 2024</p>
+          <div>
+            <h3>Help Desk Engineer Intern <span>· Remote Labs</span></h3>
+            <p>Monitored security alerts across cloud environments, supported end users, and helped maintain security policies and controls.</p>
+          </div>
+        </li>
+        <li>
+          <p class="when">2022 — 2023</p>
+          <div>
+            <h3>Python Developer Intern <span>· Lowe's Companies</span></h3>
+            <p>Designed and deployed Python applications that streamlined internal business processes.</p>
+          </div>
+        </li>
+        <li>
+          <p class="when">2021 — 2022</p>
+          <div>
+            <h3>DevOps Engineer Intern <span>· MedPro Group</span></h3>
+            <p>Maintained CI/CD pipelines, managed containerized apps with Docker and Kubernetes, and automated operations with Python.</p>
+          </div>
+        </li>
+        <li>
+          <p class="when">Education</p>
+          <div>
+            <h3>Computer Science <span>· Purdue University</span></h3>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact wrap" aria-labelledby="contact-title">
+      <div class="contact-box">
+        <p class="eyebrow">Contact</p>
+        <h2 id="contact-title">Have a project, a role, or a question?</h2>
+        <p>Email is the fastest way to reach me.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="mailto:tylerkunkel1629@gmail.com">tylerkunkel1629@gmail.com</a>
+        </div>
+        <ul class="socials">
+          <li><a class="link-arrow" href="https://github.com/TylerOnTech" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a class="link-arrow" href="https://linkedin.com/in/tjkunkel" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a class="link-arrow" href="https://www.youtube.com/@TylerOnTech" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a class="link-arrow" href="https://www.instagram.com/really_low/" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>© <span id="year">2026</span> Tyler Kunkel</p>
+      <p><a href="#top">Back to top ↑</a></p>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
