@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tyler Kunkel — Software Builder</title>
-  <meta name="description" content="Tyler Kunkel builds full-stack SaaS products and integration systems: CarrierBridge, CarrierChaos, BindHQ (TyKu Technologies), and Black Box Fragrances.">
+  <meta name="description" content="Tyler Kunkel builds full-stack SaaS products and integration systems: CarrierBridge, CarrierChaos, PolicyWatch, BindHQ (TyKu Technologies), and Black Box Fragrances.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0c0c0d" media="(prefers-color-scheme: dark)">
@@ -74,7 +74,7 @@
       <div class="wrap rule-top">
         <div class="section-head">
           <p class="eyebrow">Featured work</p>
-          <h2 id="work-title">Four systems, designed and built end to end.</h2>
+          <h2 id="work-title">Five systems, designed and built end to end.</h2>
         </div>
       </div>
 
@@ -267,10 +267,95 @@
         </figure>
       </article>
 
-      <!-- BindHQ -->
-      <article class="project wrap rule-top" aria-labelledby="bindhq-title">
+      <!-- PolicyWatch -->
+      <article class="project wrap rule-top" aria-labelledby="pw-title">
         <div class="project-copy">
-          <p class="project-kicker"><span class="num">03</span> TyKu Technologies</p>
+          <p class="project-kicker"><span class="num">03</span> Event-driven monitoring</p>
+          <h3 id="pw-title" class="project-title">PolicyWatch</h3>
+          <p class="project-lede">Watches insurance policies for meaningful changes and delivers a signed webhook the moment one happens.</p>
+          <div class="pills">
+            <span class="pill pill-live">Open source</span>
+            <span class="pill">Terraform + Ansible for AWS</span>
+          </div>
+          <p>
+            PolicyWatch polls carrier APIs that speak three different formats (camelCase JSON, snake_case
+            JSON, and ACORD-style XML), normalizes them into one contract, and compares each result with
+            the stored version. When something real changes, like a cancellation, renewal, premium or
+            coverage change, or a vehicle added or removed, it sends an HMAC-signed webhook with retries and
+            a full audit trail. A carrier outage or a malformed response is recorded as a failed check and
+            is never mistaken for a cancellation.
+          </p>
+
+          <ul class="highlights">
+            <li>
+              <h4>Change detection that ignores noise</h4>
+              <p>A typed semantic differ plus a canonical content hash. The same policy formatted two different ways counts as unchanged, and six concurrent checks commit exactly one change.</p>
+            </li>
+            <li>
+              <h4>Transactional outbox</h4>
+              <p>The new snapshot, its events, and the outbox rows commit in one transaction, so an event is never lost and never sent for a change that rolled back.</p>
+            </li>
+            <li>
+              <h4>Webhooks receivers can trust</h4>
+              <p>Timestamped HMAC-SHA256 signatures, backoff with jitter, stable event IDs for de-duplication, and an SSRF guard that blocks private, metadata, and DNS-rebinding targets at connect time.</p>
+            </li>
+            <li>
+              <h4>Reproducible infrastructure</h4>
+              <p>Terraform for a locked-down AWS environment (EC2, least-privilege IAM, CloudWatch alarms, daily snapshots) and Ansible roles that harden the host and deploy with secrets from SSM.</p>
+            </li>
+          </ul>
+
+          <dl class="stats">
+            <div><dt>Automated tests</dt><dd>135+</dd></div>
+            <div><dt>Change event types</dt><dd>8</dd></div>
+            <div><dt>Carrier formats</dt><dd>3</dd></div>
+            <div><dt>Lines of TypeScript</dt><dd>8.5k</dd></div>
+          </dl>
+
+          <ul class="stack" aria-label="Tech stack">
+            <li>TypeScript</li><li>Node.js 22</li><li>Express 5</li><li>PostgreSQL 17</li>
+            <li>Prisma</li><li>Redis</li><li>BullMQ</li><li>Zod</li>
+            <li>Terraform</li><li>Ansible</li><li>AWS</li><li>GitHub Actions</li>
+          </ul>
+
+          <div class="project-links">
+            <a class="link-arrow" href="https://github.com/TylerOnTech/PolicyWatch" target="_blank" rel="noopener">View the code on GitHub</a>
+            <a class="link-arrow" href="https://github.com/TylerOnTech/PolicyWatch/blob/main/docs/architecture.md" target="_blank" rel="noopener">See the architecture</a>
+          </div>
+        </div>
+
+        <figure class="project-visual">
+          <div class="cb-panel" role="img" aria-label="PolicyWatch demo output: a cancellation is detected, the first two webhook deliveries fail, and the third succeeds with a valid signature">
+            <div class="cb-carriers" aria-hidden="true">
+              <span class="on"><b>A</b> camelCase JSON</span>
+              <span><b>B</b> snake_case JSON</span>
+              <span><b>C</b> ACORD-style XML</span>
+            </div>
+            <div class="pw-history" aria-hidden="true">
+              <span class="pw-v">v1 <b class="st-closed">ACTIVE</b></span>
+              <i>→</i>
+              <span class="pw-v">v2 <b class="st-open">CANCELLED</b></span>
+              <span class="pw-evt">POLICY_CANCELLED</span>
+            </div>
+            <p class="cb-label pw-cmd" aria-hidden="true">$ npm run demo</p>
+            <ol class="pw-log" aria-hidden="true">
+              <li><time>+0.4s</time><span>check <b>CHANGED</b> → snapshot v2</span></li>
+              <li><time>+0.4s</time><span>event <b>POLICY_CANCELLED</b> committed with outbox row</span></li>
+              <li class="bad"><time>+0.7s</time><span>attempt 1 → HTTP 503 · retry scheduled</span></li>
+              <li class="bad"><time>+2.5s</time><span>attempt 2 → HTTP 503 · backing off</span></li>
+              <li class="good"><time>+6.1s</time><span>attempt 3 → HTTP 200 · signature valid</span></li>
+              <li class="good"><time>+6.1s</time><span>delivery <b>SUCCEEDED</b> after 3 attempts</span></li>
+              <li><time>+6.3s</time><span>redelivery → receiver flags duplicate, no reprocessing</span></li>
+            </ol>
+          </div>
+          <figcaption>Condensed from the repo's recorded demo run: a cancellation, a subscriber outage, and recovery.</figcaption>
+        </figure>
+      </article>
+
+      <!-- BindHQ -->
+      <article class="project project-flip wrap rule-top" aria-labelledby="bindhq-title">
+        <div class="project-copy">
+          <p class="project-kicker"><span class="num">04</span> TyKu Technologies</p>
           <h3 id="bindhq-title" class="project-title">BindHQ</h3>
           <p class="project-lede">An agency management system and CRM for independent insurance agencies.</p>
           <div class="pills">
@@ -377,9 +462,9 @@
       </article>
 
       <!-- Black Box -->
-      <article class="project project-flip wrap rule-top" aria-labelledby="bb-title">
+      <article class="project wrap rule-top" aria-labelledby="bb-title">
         <div class="project-copy">
-          <p class="project-kicker"><span class="num">04</span> Black Box Media</p>
+          <p class="project-kicker"><span class="num">05</span> Black Box Media</p>
           <h3 id="bb-title" class="project-title">Black Box Fragrances</h3>
           <p class="project-lede">A personal fragrance decision engine, built for an audience of 70,000+.</p>
           <div class="pills">

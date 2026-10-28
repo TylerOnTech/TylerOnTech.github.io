@@ -6,6 +6,7 @@ It showcases:
 
 - **CarrierBridge**: insurance carrier integration engine that normalizes policies from REST, legacy, and browser-only carriers
 - **CarrierChaos**: reliability engine for carrier APIs (circuit breakers, rate limits, retries, measured experiments)
+- **PolicyWatch**: event-driven policy monitoring with signed, retried webhook delivery and Terraform/Ansible infrastructure
 - **BindHQ**: multi-tenant agency management system + CRM for independent insurance agencies (TyKu Technologies)
 - **Black Box Fragrances**: personal fragrance decision engine with Match Score and Bottle Check
 - Smaller builds, client work, and contact links
