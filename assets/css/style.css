@@ -378,6 +378,39 @@ a.link-arrow:hover::after, a:hover .link-arrow::after { transform: translate(2px
   .cb-code { font-size: 11.5px; }
 }
 
+/* ---------- CarrierChaos visual (shares the .cb-panel shell) ---------- */
+
+.cc-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 14px; }
+.cc-cmd { font-family: var(--font-mono); font-size: 12.5px; color: #e4e4e7; }
+.cc-seed { padding: 2px 8px; border-radius: 999px; background: #18181b; border: 1px solid #27272a; font-family: var(--font-mono); font-size: 11px; color: #a1a1aa; }
+.cc-runs { display: grid; gap: 8px; }
+.cc-runs li {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center;
+  padding: 12px 14px; border-radius: 10px;
+  background: #0b0b0c; border: 1px solid #222225;
+}
+.cc-id { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 7px; background: #27272a; color: #e4e4e7; font-family: var(--font-mono); font-size: 12px; font-weight: 500; }
+.cc-name { font-size: 13.5px; font-weight: 500; color: #f4f4f5; line-height: 1.35; }
+.cc-detail { margin-top: 2px; font-size: 12px; color: #a1a1aa; line-height: 1.4; }
+.cc-out { justify-self: end; text-align: right; font-family: var(--font-mono); font-size: 11.5px; line-height: 1.45; white-space: nowrap; }
+.cc-out em { font-style: normal; color: #86efac; }
+.cc-out.ok { color: #86efac; }
+.cc-out.warn { color: #fbbf24; }
+.cc-breaker {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid #222225; font-family: var(--font-mono); font-size: 11px;
+}
+.cc-bl { margin-right: 4px; color: #71717a; text-transform: uppercase; letter-spacing: 0.04em; }
+.cc-breaker i { font-style: normal; color: #52525b; }
+.cc-breaker span:not(.cc-bl) { padding: 2px 7px; border-radius: 6px; }
+.st-closed { color: #86efac; background: rgba(134, 239, 172, 0.1); }
+.st-open { color: #fca5a5; background: rgba(252, 165, 165, 0.1); }
+.st-half { color: #fbbf24; background: rgba(251, 191, 36, 0.1); }
+@media (max-width: 560px) {
+  .cc-runs li { grid-template-columns: auto minmax(0, 1fr); }
+  .cc-out { grid-column: 2; justify-self: start; text-align: left; white-space: normal; }
+}
+
 /* ---------- Black Box mockup (fixed dark "screen", real product tokens) ---------- */
 
 .project-visual-phone { display: flex; flex-direction: column; align-items: center; }

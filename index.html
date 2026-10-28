@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tyler Kunkel — Software Builder</title>
-  <meta name="description" content="Tyler Kunkel builds full-stack SaaS products and integration systems: CarrierBridge, BindHQ (TyKu Technologies), and Black Box Fragrances.">
+  <meta name="description" content="Tyler Kunkel builds full-stack SaaS products and integration systems: CarrierBridge, CarrierChaos, BindHQ (TyKu Technologies), and Black Box Fragrances.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0c0c0d" media="(prefers-color-scheme: dark)">
@@ -74,7 +74,7 @@
       <div class="wrap rule-top">
         <div class="section-head">
           <p class="eyebrow">Featured work</p>
-          <h2 id="work-title">Three systems, designed and built end to end.</h2>
+          <h2 id="work-title">Four systems, designed and built end to end.</h2>
         </div>
       </div>
 
@@ -163,10 +163,114 @@
         </figure>
       </article>
 
-      <!-- BindHQ -->
-      <article class="project project-flip wrap rule-top" aria-labelledby="bindhq-title">
+      <!-- CarrierChaos -->
+      <article class="project project-flip wrap rule-top" aria-labelledby="cc-title">
         <div class="project-copy">
-          <p class="project-kicker"><span class="num">02</span> TyKu Technologies</p>
+          <p class="project-kicker"><span class="num">02</span> Reliability engine</p>
+          <h3 id="cc-title" class="project-title">CarrierChaos</h3>
+          <p class="project-lede">Retrieves insurance policy data correctly even when carrier APIs are slow, rate-limited, flaky, down, or just wrong.</p>
+          <div class="pills">
+            <span class="pill pill-live">Open source</span>
+            <span class="pill">Runs locally with Docker Compose</span>
+          </div>
+          <p>
+            CarrierChaos runs many policy-retrieval jobs at once against simulated carriers that fail on
+            purpose, in realistic and reproducible ways: 429s, 500s, hanging requests, connections cut
+            mid-response, and invalid JSON. Then it shows the infrastructure holding up. Its resilience
+            primitives have no framework dependencies, so they can be lifted straight into CarrierBridge.
+          </p>
+
+          <ul class="highlights">
+            <li>
+              <h4>A healthy carrier never waits on a broken one</h4>
+              <p>Each carrier gets its own queue, worker pool, circuit breaker, and Redis rate limiter. In the outage experiment, the breaker opened in 0.3 seconds and the healthy carrier finished every job.</p>
+            </li>
+            <li>
+              <h4>Retries that respect the carrier</h4>
+              <p>Bounded backoff with jitter, <code>Retry-After</code> honored, and one error table that decides what's retryable. A 429 never trips the breaker, and a schema violation is never retried.</p>
+            </li>
+            <li>
+              <h4>Exactly one result, even after a crash</h4>
+              <p>Jobs may run more than once, but fencing tokens and row-locked transitions keep the effects single. In the crash test, the carrier serves a policy twice and exactly one record is stored.</p>
+            </li>
+            <li>
+              <h4>Measured, not claimed</h4>
+              <p>Four reproducible experiments and a 1,000-job load test, each cross-checked against the mock carrier's own request counters. Failed jobs land in a dead-letter queue that can be replayed.</p>
+            </li>
+          </ul>
+
+          <dl class="stats">
+            <div><dt>Automated tests</dt><dd>198</dd></div>
+            <div><dt>Reproducible experiments</dt><dd>4</dd></div>
+            <div><dt>Load-test jobs completed</dt><dd>1,000</dd></div>
+            <div><dt>Lines of TypeScript</dt><dd>8.6k</dd></div>
+          </dl>
+
+          <ul class="stack" aria-label="Tech stack">
+            <li>TypeScript</li><li>Node.js 22</li><li>Express 5</li><li>BullMQ</li>
+            <li>Redis</li><li>PostgreSQL</li><li>Prisma 7</li><li>Zod</li>
+            <li>Prometheus</li><li>Vitest</li><li>Docker Compose</li><li>GitHub Actions</li>
+          </ul>
+
+          <div class="project-links">
+            <a class="link-arrow" href="https://github.com/TylerOnTech/CarrierChaos" target="_blank" rel="noopener">View the code on GitHub</a>
+            <a class="link-arrow" href="https://github.com/TylerOnTech/CarrierChaos/blob/main/docs/results/EXPERIMENTS.md" target="_blank" rel="noopener">See the experiment results</a>
+          </div>
+        </div>
+
+        <figure class="project-visual">
+          <div class="cb-panel" role="img" aria-label="Measured results of four CarrierChaos experiments: healthy, intermittent failures, outage, and recovery">
+            <div class="cc-head" aria-hidden="true">
+              <span class="cc-cmd">$ npm run experiments</span>
+              <span class="cc-seed">seed 42 · reproducible</span>
+            </div>
+            <ol class="cc-runs" aria-hidden="true">
+              <li>
+                <span class="cc-id">A</span>
+                <div class="cc-body">
+                  <p class="cc-name">Healthy carrier</p>
+                  <p class="cc-detail">100 jobs, no injected faults</p>
+                </div>
+                <span class="cc-out ok">100/100 completed</span>
+              </li>
+              <li>
+                <span class="cc-id">B</span>
+                <div class="cc-body">
+                  <p class="cc-name">Intermittent failures</p>
+                  <p class="cc-detail">10% 429 · 8% 500 · 7% 503 · 5% hang</p>
+                </div>
+                <span class="cc-out ok">100/100 completed</span>
+              </li>
+              <li>
+                <span class="cc-id">C</span>
+                <div class="cc-body">
+                  <p class="cc-name">Outage, plus a healthy control</p>
+                  <p class="cc-detail">Breaker opened in 0.3 s · 20 calls to the dead carrier, not 240</p>
+                </div>
+                <span class="cc-out warn">60 dead-lettered<br><em>control 40/40</em></span>
+              </li>
+              <li>
+                <span class="cc-id">D</span>
+                <div class="cc-body">
+                  <p class="cc-name">Recovery and replay</p>
+                  <p class="cc-detail">Dead letters from C replayed after the carrier came back</p>
+                </div>
+                <span class="cc-out ok">100/100 completed</span>
+              </li>
+            </ol>
+            <div class="cc-breaker" aria-hidden="true">
+              <span class="cc-bl">Circuit breaker</span>
+              <span class="st-closed">CLOSED</span><i>→</i><span class="st-open">OPEN</span><i>→</i><span class="st-half">HALF_OPEN</span><i>→</i><span class="st-closed">CLOSED</span>
+            </div>
+          </div>
+          <figcaption>Measured results from the repo's experiment runner, recorded on one 4-vCPU machine.</figcaption>
+        </figure>
+      </article>
+
+      <!-- BindHQ -->
+      <article class="project wrap rule-top" aria-labelledby="bindhq-title">
+        <div class="project-copy">
+          <p class="project-kicker"><span class="num">03</span> TyKu Technologies</p>
           <h3 id="bindhq-title" class="project-title">BindHQ</h3>
           <p class="project-lede">An agency management system and CRM for independent insurance agencies.</p>
           <div class="pills">
@@ -273,9 +377,9 @@
       </article>
 
       <!-- Black Box -->
-      <article class="project wrap rule-top" aria-labelledby="bb-title">
+      <article class="project project-flip wrap rule-top" aria-labelledby="bb-title">
         <div class="project-copy">
-          <p class="project-kicker"><span class="num">03</span> Black Box Media</p>
+          <p class="project-kicker"><span class="num">04</span> Black Box Media</p>
           <h3 id="bb-title" class="project-title">Black Box Fragrances</h3>
           <p class="project-lede">A personal fragrance decision engine, built for an audience of 70,000+.</p>
           <div class="pills">
