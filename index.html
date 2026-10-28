@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tyler Kunkel — Software Builder</title>
-  <meta name="description" content="Tyler Kunkel builds full-stack SaaS products. Founder of TyKu Technologies (BindHQ) and co-founder of Black Box Fragrances.">
+  <meta name="description" content="Tyler Kunkel builds full-stack SaaS products and integration systems: CarrierBridge, BindHQ (TyKu Technologies), and Black Box Fragrances.">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f7f6f3" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0c0c0d" media="(prefers-color-scheme: dark)">
@@ -73,14 +73,99 @@
       <div class="wrap rule-top">
         <div class="section-head">
           <p class="eyebrow">Featured work</p>
-          <h2 id="work-title">Two products, built and running in production.</h2>
+          <h2 id="work-title">Three systems, designed and built end to end.</h2>
         </div>
       </div>
 
-      <!-- BindHQ -->
-      <article class="project wrap" aria-labelledby="bindhq-title">
+      <!-- CarrierBridge -->
+      <article class="project wrap" aria-labelledby="cb-title">
         <div class="project-copy">
-          <p class="project-kicker"><span class="num">01</span> TyKu Technologies</p>
+          <p class="project-kicker"><span class="num">01</span> Integration engine</p>
+          <h3 id="cb-title" class="project-title">CarrierBridge</h3>
+          <p class="project-lede">Pulls insurance policies from carriers that each work differently, and returns one clean, versioned format.</p>
+          <div class="pills">
+            <span class="pill pill-live">Open source</span>
+            <span class="pill">Runs locally with Docker Compose</span>
+          </div>
+          <p>
+            Every carrier integrates differently. One is a modern OAuth REST API. One is a legacy service
+            that reports errors as HTTP 200 and sends premiums as <code>"$1,284.6"</code>. One has no API
+            at all, so CarrierBridge logs in with a headless browser. All three sit behind a single adapter
+            interface and come out as the same <code>NormalizedPolicy</code> contract. The carriers are
+            realistic mock services with scripted faults, so every failure path is tested.
+          </p>
+
+          <ul class="highlights">
+            <li>
+              <h4>Async pulls on a Postgres queue</h4>
+              <p><code>POST /pulls</code> returns <code>202</code> right away. Workers claim one task per carrier with <code>SKIP LOCKED</code>, leases, and fencing tokens, so a stalled worker can never overwrite a newer attempt.</p>
+            </li>
+            <li>
+              <h4>Partial success, not all-or-nothing</h4>
+              <p>Every failure is classified (authentication, rate limited, carrier unavailable, timeout) to decide whether to retry. One carrier failing never throws away another carrier's results.</p>
+            </li>
+            <li>
+              <h4>Normalization that never invents data</h4>
+              <p>Integer cents, calendar dates, VIN check digits, and explicit enum tables. Anything unparseable becomes <code>null</code> with a warning, and the raw value is kept.</p>
+            </li>
+            <li>
+              <h4>Credentials handled like secrets</h4>
+              <p>AES-256-GCM encrypted while queued, bound to their task, deleted once the task finishes, and tested to never appear in responses or logs.</p>
+            </li>
+          </ul>
+
+          <dl class="stats">
+            <div><dt>Automated tests</dt><dd>164</dd></div>
+            <div><dt>Carrier integrations</dt><dd>3</dd></div>
+            <div><dt>Documented design decisions</dt><dd>13</dd></div>
+            <div><dt>Lines of TypeScript</dt><dd>7.6k</dd></div>
+          </dl>
+
+          <ul class="stack" aria-label="Tech stack">
+            <li>TypeScript</li><li>Node.js 22</li><li>Express 5</li><li>PostgreSQL 16</li>
+            <li>Prisma</li><li>Zod</li><li>Playwright</li><li>Vitest</li>
+            <li>OpenAPI 3.1</li><li>Docker Compose</li><li>GitHub Actions</li>
+          </ul>
+
+          <div class="project-links">
+            <a class="link-arrow" href="https://github.com/TylerOnTech/CarrierBridge" target="_blank" rel="noopener">View the code on GitHub</a>
+            <a class="link-arrow" href="https://github.com/TylerOnTech/CarrierBridge/blob/main/docs/design-decisions.md" target="_blank" rel="noopener">Read the design decisions</a>
+          </div>
+        </div>
+
+        <figure class="project-visual">
+          <div class="cb-panel" role="img" aria-label="A messy legacy carrier record and the clean NormalizedPolicy that CarrierBridge produces from it">
+            <div class="cb-carriers" aria-hidden="true">
+              <span><b>A</b> OAuth REST</span>
+              <span class="on"><b>B</b> Legacy XML bridge</span>
+              <span><b>C</b> Browser-only portal</span>
+            </div>
+            <p class="cb-label" aria-hidden="true">Carrier B sends</p>
+<pre class="cb-code" aria-hidden="true"><code><span class="k">"EFF_DT"</span>: <span class="s">"02/01/2026"</span>,
+<span class="k">"EXP_DT"</span>: <span class="s">"20260801"</span>,
+<span class="k">"TOT_PREM"</span>: <span class="s">"$1,284.6"</span>,
+<span class="k">"INSD"</span>: { <span class="k">"NM"</span>: <span class="s">"LEE, JORDAN"</span> },
+<span class="k">"LIM"</span>: <span class="s">"100/300"</span>,
+<span class="k">"VIN"</span>: <span class="s">"1FTEW1EP0MFA4452"</span></code></pre>
+            <p class="cb-arrow" aria-hidden="true"><span>↓</span> normalize</p>
+            <p class="cb-label" aria-hidden="true">CarrierBridge returns <span class="cb-ver">NormalizedPolicy v1</span></p>
+<pre class="cb-code" aria-hidden="true"><code><span class="k">"effectiveDate"</span>: <span class="s">"2026-02-01"</span>,
+<span class="k">"expirationDate"</span>: <span class="s">"2026-08-01"</span>,
+<span class="k">"premium"</span>: { <span class="k">"amountCents"</span>: <span class="n">128460</span>,
+             <span class="k">"term"</span>: <span class="s">"semi_annual"</span> },
+<span class="k">"policyholder"</span>: { <span class="k">"fullName"</span>: <span class="s">"Jordan Lee"</span> },
+<span class="k">"limitCents"</span>: <span class="n">10000000</span>,
+<span class="k">"perOccurrenceLimitCents"</span>: <span class="n">30000000</span>,
+<span class="k">"vin"</span>: <span class="n">null</span>  <span class="w">⚠ invalid_vin · raw value kept</span></code></pre>
+          </div>
+          <figcaption>Real input and output from the repo's contract docs: a messy legacy record, normalized.</figcaption>
+        </figure>
+      </article>
+
+      <!-- BindHQ -->
+      <article class="project project-flip wrap rule-top" aria-labelledby="bindhq-title">
+        <div class="project-copy">
+          <p class="project-kicker"><span class="num">02</span> TyKu Technologies</p>
           <h3 id="bindhq-title" class="project-title">BindHQ</h3>
           <p class="project-lede">An agency management system and CRM for independent insurance agencies.</p>
           <div class="pills">
@@ -187,9 +272,9 @@
       </article>
 
       <!-- Black Box -->
-      <article class="project project-flip wrap rule-top" aria-labelledby="bb-title">
+      <article class="project wrap rule-top" aria-labelledby="bb-title">
         <div class="project-copy">
-          <p class="project-kicker"><span class="num">02</span> Black Box Media</p>
+          <p class="project-kicker"><span class="num">03</span> Black Box Media</p>
           <h3 id="bb-title" class="project-title">Black Box Fragrances</h3>
           <p class="project-lede">A personal fragrance decision engine, built for an audience of 70,000+.</p>
           <div class="pills">
