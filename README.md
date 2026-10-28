@@ -6,7 +6,7 @@ It showcases:
 
 - **BindHQ**: multi-tenant agency management system + CRM for independent insurance agencies (TyKu Technologies)
 - **Black Box Fragrances**: personal fragrance decision engine with Match Score and Bottle Check
-- Smaller builds and client work, experience, and contact links
+- Smaller builds, client work, and contact links
 
 ## How it's built
 
